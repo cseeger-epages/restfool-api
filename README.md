@@ -1,6 +1,6 @@
 # Simple Restfool JSON API
 
-is a stupidly "foolish" and simple approach of implementing a JSON Restfull API library.
+is a stupidly "foolish" and simple approach of implementing a JSON Restful API library.
 
 ## Features
 - path routing using gorilla mux

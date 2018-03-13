@@ -93,7 +93,7 @@ func (a RestAPI) createTLSConf() *tls.Config {
 func (a RestAPI) createServerAndListener(router *mux.Router, ip string, port string) (*http.Server, net.Listener, error) {
 
 	if port == "" || router == nil {
-		return nil, nil, fmt.Errorf("Router or Port is empty")
+		return nil, nil, fmt.Errorf("router or port is empty")
 	}
 
 	if ip != "" && !isIPAddr(ip) {

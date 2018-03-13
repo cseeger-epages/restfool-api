@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	rest "../restfool"
+	rest "github.com/cseeger-epages/restfool-go"
 )
 
 func main() {
