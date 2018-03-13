@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -39,6 +39,7 @@ type route struct {
 
 var routes []route
 
+// AddHandler adds a new handler to the routing list
 func (a RestAPI) AddHandler(name string, method string, path string, description interface{}, callback http.HandlerFunc) error {
 	if name == "" || method == "" || path == "" || callback == nil {
 		return fmt.Errorf("name, method, path or callback function not set")
@@ -56,66 +57,8 @@ func (a RestAPI) AddHandler(name string, method string, path string, description
 }
 
 func (a RestAPI) initRoutes() error {
-	return a.AddHandler("Help", "GET", "/help", "help page", Help)
+	err := a.AddHandler("Help", "GET", "/help", "help page", a.help)
+	err = a.AddHandler("Cors", "OPTIONS", "/{endpoint}", "Cross origin preflight", a.corsHandler)
+	err = a.AddHandler("Cors", "OPTIONS", "/{endpoint}/{id}", "Cross origin preflight", a.corsHandler)
+	return err
 }
-
-/*
-func init() {
-	routes = Routes{
-		Route{
-			"Index",
-			"GET",
-			"/",
-			"default page",
-			Index,
-		},
-		Route{
-			"Help",
-			"GET",
-			"/help",
-			"help page",
-			Help,
-		},
-		Route{
-			"projects",
-			"GET",
-			"/projects",
-			"show all projects",
-			ProjectsHandler,
-		},
-		Route{
-			"project",
-			"GET",
-			"/project/{project}",
-			"get specific project",
-			ProjectHandler,
-		},
-		Route{
-			"project",
-			"POST",
-			"/project/{project}",
-			map[string]interface{}{
-				"Message": "description message",
-				"Post-parameter": map[string]string{
-					"parameter": "type - description",
-				},
-			},
-			ProjectHandler,
-		},
-		Route{
-			"Cors",
-			"OPTIONS",
-			"/{endpoint}",
-			"Cross origin preflight",
-			CorsHandler,
-		},
-		Route{
-			"Cors",
-			"OPTIONS",
-			"/{endpoint}/{id}",
-			"Cross origin preflight",
-			CorsHandler,
-		},
-	}
-}
-*/

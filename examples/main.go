@@ -33,7 +33,7 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	// dont know what should happen here
+	// dont need to cache ?
 	w.Header().Set("Cache-Control", "no-store")
 
 	qs := rest.ParseQueryStrings(r)

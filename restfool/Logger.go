@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -32,7 +32,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (a RestAPI) InitLogger() {
+func (a RestAPI) initLogger() {
 	switch a.Conf.Logging.Type {
 	case LOGFORMATJSON:
 		log.SetFormatter(&log.JSONFormatter{})
@@ -91,6 +91,7 @@ func (a RestAPI) InitLogger() {
 	}
 }
 
+// Logger is the default logging handler
 func Logger(inner http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()

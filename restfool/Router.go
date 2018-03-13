@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -32,6 +32,7 @@ import (
 	"gopkg.in/throttled/throttled.v2/store/memstore"
 )
 
+// NewRouter is the router constructor
 func (a RestAPI) NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
@@ -48,7 +49,7 @@ func (a RestAPI) NewRouter() *mux.Router {
 	return router
 }
 
-// add default routes + ratelimit
+// AddRoutes add default handler, routing and ratelimit
 func (a RestAPI) AddRoutes(router *mux.Router) {
 	store, err := memstore.New(65536)
 	Error("ROUTES: could not create memstore", err)
@@ -73,7 +74,7 @@ func (a RestAPI) AddRoutes(router *mux.Router) {
 			Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
-			Handler(use(handler, BasicAuthHandler, httpRateLimiter.RateLimit))
+			Handler(use(handler, a.addDefaultHeader, a.basicAuthHandler, httpRateLimiter.RateLimit))
 	}
 }
 
@@ -86,12 +87,12 @@ func use(h http.Handler, middleware ...func(http.Handler) http.Handler) http.Han
 	return h
 }
 
-// version 1 routes
+// AddV1Routes version 1 routes
 func (a RestAPI) AddV1Routes(router *mux.Router) {
 	a.AddRoutes(router)
 }
 
-// dummy for version 2 routes
+// AddV2Routes dummy for version 2 routes
 func (a RestAPI) AddV2Routes(router *mux.Router) {
 	a.AddRoutes(router)
 }

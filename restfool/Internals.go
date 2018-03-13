@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -32,9 +32,7 @@ import (
 	"strings"
 )
 
-var Conf config
-
-// Parse filter functions
+// ParseQueryStrings parses filters
 func ParseQueryStrings(r *http.Request) QueryStrings {
 	vals := r.URL.Query()
 
@@ -50,19 +48,8 @@ func ParseQueryStrings(r *http.Request) QueryStrings {
 	return qs
 }
 
-// Handles some filters and does what the name says
+// EncodeAndSend handles some filters, json encodes and outputs msg
 func EncodeAndSend(w http.ResponseWriter, r *http.Request, qs QueryStrings, msg interface{}) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-
-	if Conf.Cors.AllowCrossOrigin {
-		w.Header().Set("Access-Control-Allow-Origin", Conf.Cors.AllowFrom)
-		w.Header().Set("Access-Control-Allow-Methods", strings.Join(Conf.Cors.CorsMethods, ","))
-	}
-
-	if Conf.Tls.Hsts {
-		hsts := fmt.Sprintf("max-age=%d; includeSubDomains", Conf.Tls.HstsMaxAge)
-		w.Header().Add("Strict-Transport-Security", hsts)
-	}
 
 	var err error
 	// i need to encode the data twice for checking etag
@@ -93,13 +80,9 @@ func EncodeAndSend(w http.ResponseWriter, r *http.Request, qs QueryStrings, msg 
 	Error("json parse error", err)
 }
 
+// Serve creates and starts the restfull server and listener
 func (a RestAPI) Serve() error {
 	router := a.NewRouter()
-
-	err := a.initRoutes()
-	if err != nil {
-		return err
-	}
 
 	s, l, err := a.createServerAndListener(router, a.Conf.General.Listen, a.Conf.General.Port)
 	if err != nil {
@@ -114,6 +97,7 @@ func (a RestAPI) Serve() error {
 	return nil
 }
 
+// New is the restfool constructor
 func New(confFile string) (RestAPI, error) {
 	var conf config
 	err := parseConfig(confFile, &conf)
@@ -122,9 +106,13 @@ func New(confFile string) (RestAPI, error) {
 	}
 
 	api := RestAPI{conf, []route{}}
-	api.InitLogger()
+	api.initLogger()
+	err = api.initRoutes()
+	if err != nil {
+		return RestAPI{}, err
+	}
 	Info("Basic Authentication", map[string]interface{}{"enabled": conf.General.BasicAuth})
-	Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": conf.Tls.Hsts})
+	Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": conf.TLS.Hsts})
 	Info("Cross Origin Policy", map[string]interface{}{"enabled": conf.Cors.AllowCrossOrigin})
 	return api, nil
 }

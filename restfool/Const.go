@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -29,23 +29,39 @@ import (
 )
 
 const (
-	INFO          string = "info"
-	ERROR         string = "error"
-	DEBUG         string = "debug"
-	LOGSTDOUT     string = "stdout"
-	LOGFILE       string = "logfile"
+	// INFO constant
+	INFO string = "info"
+	// ERROR constant
+	ERROR string = "error"
+	// DEBUG constant
+	DEBUG string = "debug"
+	// LOGSTDOUT constant
+	LOGSTDOUT string = "stdout"
+	// LOGFILE constant
+	LOGFILE string = "logfile"
+	// LOGFORMATJSON constant
 	LOGFORMATJSON string = "json"
+	// LOGFORMATTEXT constant
 	LOGFORMATTEXT string = "text"
-	SSL30         string = "ssl30"
-	TLS10         string = "tls10"
-	TLS11         string = "tls11"
-	TLS12         string = "tls12"
-	CURVEP256     string = "p256"
-	CURVEP384     string = "p384"
-	CURVEP521     string = "p521"
-	X25519        string = "x25519"
+	// SSL30 constant
+	SSL30 string = "ssl30"
+	// TLS10 constant
+	TLS10 string = "tls10"
+	// TLS11 constant
+	TLS11 string = "tls11"
+	// TLS12 constant
+	TLS12 string = "tls12"
+	// CURVEP256 definitio
+	CURVEP256 string = "p256"
+	// CURVEP384 constant
+	CURVEP384 string = "p384"
+	// CURVEP521 constant
+	CURVEP521 string = "p521"
+	// X25519 constant
+	X25519 string = "x25519"
 )
 
+// CipherMap contains all cipers
 var CipherMap = map[string]uint16{
 	"TLS_RSA_WITH_RC4_128_SHA":                tls.TLS_RSA_WITH_RC4_128_SHA,
 	"TLS_RSA_WITH_3DES_EDE_CBC_SHA":           tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,

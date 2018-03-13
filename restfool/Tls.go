@@ -1,3 +1,27 @@
+/*
+   Restfool-go
+
+   Copyright (C) 2018 Carsten Seeger
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+   @author Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
+   @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
+   @link https://github.com/cseeger-epages/rest-api-go-skeleton
+*/
+
 package restfool
 
 import (
@@ -13,7 +37,7 @@ import (
 func (a RestAPI) createTLSConf() *tls.Config {
 
 	var minversion uint16 = tls.VersionTLS12
-	switch a.Conf.Tls.Minversion {
+	switch a.Conf.TLS.Minversion {
 	case SSL30:
 		minversion = tls.VersionSSL30
 	case TLS10:
@@ -27,7 +51,7 @@ func (a RestAPI) createTLSConf() *tls.Config {
 	}
 
 	var curves []tls.CurveID
-	for _, v := range a.Conf.Tls.CurvePrefs {
+	for _, v := range a.Conf.TLS.CurvePrefs {
 		switch v {
 		case CURVEP256:
 			curves = append(curves, tls.CurveP256)
@@ -46,7 +70,7 @@ func (a RestAPI) createTLSConf() *tls.Config {
 	}
 
 	var ciphers []uint16
-	for _, v := range a.Conf.Tls.Ciphers {
+	for _, v := range a.Conf.TLS.Ciphers {
 		ciphers = append(ciphers, CipherMap[v])
 	}
 
@@ -60,7 +84,7 @@ func (a RestAPI) createTLSConf() *tls.Config {
 	tlsCfg := &tls.Config{
 		MinVersion:               minversion,
 		CurvePreferences:         curves,
-		PreferServerCipherSuites: a.Conf.Tls.PreferServerCiphers,
+		PreferServerCipherSuites: a.Conf.TLS.PreferServerCiphers,
 		CipherSuites:             ciphers,
 	}
 	return tlsCfg
@@ -72,17 +96,17 @@ func (a RestAPI) createServerAndListener(router *mux.Router, ip string, port str
 		return nil, nil, fmt.Errorf("Router or Port is empty")
 	}
 
-	if ip != "" && !IsIPAddr(ip) {
+	if ip != "" && !isIPAddr(ip) {
 		return nil, nil, fmt.Errorf("unknown IPAddress format")
 	}
 
 	// default initilization
 	listen := fmt.Sprintf("%s:%s", "", port)
 
-	if IsV4Addr(ip) {
+	if isV4Addr(ip) {
 		listen = fmt.Sprintf("%s:%s", ip, port)
 	}
-	if IsV6Addr(ip) {
+	if isV6Addr(ip) {
 		listen = fmt.Sprintf("[%s]:%s", ip, port)
 	}
 	l, err := net.Listen("tcp", listen)
@@ -101,16 +125,16 @@ func (a RestAPI) createServerAndListener(router *mux.Router, ip string, port str
 	return srv, l, nil
 }
 
-func IsIPAddr(ip string) bool {
-	if IsV4Addr(ip) {
+func isIPAddr(ip string) bool {
+	if isV4Addr(ip) {
 		return true
-	} else if IsV6Addr(ip) {
+	} else if isV6Addr(ip) {
 		return true
 	}
 	return false
 }
 
-func IsV4Addr(ip string) bool {
+func isV4Addr(ip string) bool {
 	trial := net.ParseIP(ip)
 	if trial.To4() != nil {
 		return true
@@ -118,7 +142,7 @@ func IsV4Addr(ip string) bool {
 	return false
 }
 
-func IsV6Addr(ip string) bool {
+func isV6Addr(ip string) bool {
 	trial := net.ParseIP(ip)
 	if trial.To16() != nil {
 		return trial != nil && strings.Contains(ip, ":")

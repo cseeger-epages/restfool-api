@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -29,14 +29,14 @@ import (
 	"strings"
 )
 
-func BasicAuthHandler(h http.Handler) http.Handler {
+func (a RestAPI) basicAuthHandler(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" {
 			h.ServeHTTP(w, r)
 			return
 		}
 
-		if !Conf.General.BasicAuth {
+		if !a.Conf.General.BasicAuth {
 			h.ServeHTTP(w, r)
 			return
 		}
@@ -59,7 +59,7 @@ func BasicAuthHandler(h http.Handler) http.Handler {
 
 		valid := false
 
-		for _, v := range Conf.Users {
+		for _, v := range a.Conf.Users {
 			if username == v.Username && strings.TrimSuffix(password, "\n") == v.Password {
 				valid = true
 			}

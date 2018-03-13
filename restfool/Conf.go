@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -33,11 +33,10 @@ import (
 type config struct {
 	General   general   `toml:"general"`
 	Certs     certs     `toml:"certs"`
-	Tls       tlsconf   `toml:"tls"`
+	TLS       tlsconf   `toml:"tls"`
 	Cors      cors      `toml:"cors"`
 	Logging   logging   `toml:"logging"`
 	RateLimit rateLimit `toml:"ratelimit"`
-	DB        database  `toml:"database"`
 	Users     []user    `toml:"user"`
 }
 
@@ -77,14 +76,6 @@ type logging struct {
 type rateLimit struct {
 	Limit int
 	Burst int
-}
-
-type database struct {
-	User     string
-	Password string
-	Host     string
-	Port     string
-	Database string
 }
 
 type user struct {

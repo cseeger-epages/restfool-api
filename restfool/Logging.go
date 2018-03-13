@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
@@ -28,7 +28,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// generic logging function
+// Log is the generic logging function used by Debug, Error and Info
 func Log(msg string, params map[string]interface{}, loglevel string) {
 	switch loglevel {
 	case INFO:
@@ -94,17 +94,17 @@ func Info(msg string, params interface{}) {
 	}
 }
 
-// simple error logging without fields
+// ErrorMsg used for simple error logging without fields
 func ErrorMsg(msg string) {
 	log.Error(msg)
 }
 
-// simple debug logging without fields
+// DebugMsg used for simple debug logging without fields
 func DebugMsg(msg string) {
 	log.Debug(msg)
 }
 
-// simple info logging without fields
+// InfoMsg used for simple info logging without fields
 func InfoMsg(msg string) {
 	log.Info(msg)
 }

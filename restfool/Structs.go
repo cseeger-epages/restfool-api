@@ -1,7 +1,7 @@
 /*
-   GOLANG REST API Skeleton
+   Restfool-go
 
-   Copyright (C) 2017 Carsten Seeger
+   Copyright (C) 2018 Carsten Seeger
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,45 +17,36 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
    @author Carsten Seeger
-   @copyright Copyright (C) 2017 Carsten Seeger
+   @copyright Copyright (C) 2018 Carsten Seeger
    @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License 3
    @link https://github.com/cseeger-epages/rest-api-go-skeleton
 */
 
 package restfool
 
+// RestAPI contains api data
 type RestAPI struct {
 	Conf   config
 	Routes []route
 }
 
+// Msg is the standard message type
 type Msg struct {
 	Message string `json:"message"`
 }
 
-type HelpMsg struct {
-	Message string `json:"message"`
-}
-
-type PathList struct {
-	Method      string
-	Pattern     string
-	Description interface{}
-}
-
-type ErrorMessage struct {
+// ErrMsg is the standard error message type
+type ErrMsg struct {
 	Error string `json:"error"`
 }
 
-type Project struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-}
-
-type Projects struct {
-	P []Project `json:"projects"`
-}
-
+// QueryStrings contains all possible query options
 type QueryStrings struct {
 	prettify bool
+}
+
+type pathList struct {
+	Method      string
+	Pattern     string
+	Description interface{}
 }
