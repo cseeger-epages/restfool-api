@@ -25,14 +25,15 @@
 package restfool
 
 import (
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
-func InitLogger() {
-	switch Conf.Logging.Type {
+func (a RestAPI) InitLogger() {
+	switch a.Conf.Logging.Type {
 	case LOGFORMATJSON:
 		log.SetFormatter(&log.JSONFormatter{})
 	case LOGFORMATTEXT:
@@ -42,12 +43,12 @@ func InitLogger() {
 		log.SetFormatter(formatter)
 	default:
 		log.WithFields(log.Fields{
-			"logformat": Conf.Logging.Type,
+			"logformat": a.Conf.Logging.Type,
 			"default":   LOGFORMATTEXT,
 		}).Error("unknown logformat using default")
 	}
 
-	switch Conf.Logging.Loglevel {
+	switch a.Conf.Logging.Loglevel {
 	case INFO:
 		log.SetLevel(log.InfoLevel)
 	case ERROR:
@@ -56,37 +57,37 @@ func InitLogger() {
 		log.SetLevel(log.DebugLevel)
 	default:
 		log.WithFields(log.Fields{
-			"loglevel": Conf.Logging.Loglevel,
+			"loglevel": a.Conf.Logging.Loglevel,
 			"default":  INFO,
 		}).Error("unknown loglevel using default")
 		log.SetLevel(log.InfoLevel)
 	}
 
-	switch Conf.Logging.Output {
+	switch a.Conf.Logging.Output {
 	case LOGFILE:
-		logfile, err := os.OpenFile(Conf.Logging.Logfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		logfile, err := os.OpenFile(a.Conf.Logging.Logfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			log.WithFields(log.Fields{
-				"filepath": Conf.Logging.Logfile,
+				"filepath": a.Conf.Logging.Logfile,
 			}).Error("can't open logfile use stdout")
-			Conf.Logging.Output = LOGSTDOUT
+			a.Conf.Logging.Output = LOGSTDOUT
 		}
 		log.SetOutput(logfile)
 		log.WithFields(log.Fields{
 			"output": LOGFILE,
-			"format": Conf.Logging.Type,
+			"format": a.Conf.Logging.Type,
 		}).Debug("initialising logging")
 	case LOGSTDOUT:
 		log.WithFields(log.Fields{
 			"output": LOGSTDOUT,
-			"format": Conf.Logging.Type,
+			"format": a.Conf.Logging.Type,
 		}).Debug("using logging method")
 	default:
 		log.WithFields(log.Fields{
-			"output":  Conf.Logging.Output,
+			"output":  a.Conf.Logging.Output,
 			"default": LOGSTDOUT,
 		}).Error("unknown log output using default")
-		Conf.Logging.Output = LOGSTDOUT
+		a.Conf.Logging.Output = LOGSTDOUT
 	}
 }
 

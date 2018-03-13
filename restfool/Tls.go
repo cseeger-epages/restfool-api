@@ -3,16 +3,17 @@ package restfool
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/gorilla/mux"
 	"net"
 	"net/http"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
-func CreateTLSConf() *tls.Config {
+func (a RestAPI) createTLSConf() *tls.Config {
 
 	var minversion uint16 = tls.VersionTLS12
-	switch Conf.Tls.Minversion {
+	switch a.Conf.Tls.Minversion {
 	case SSL30:
 		minversion = tls.VersionSSL30
 	case TLS10:
@@ -26,7 +27,7 @@ func CreateTLSConf() *tls.Config {
 	}
 
 	var curves []tls.CurveID
-	for _, v := range Conf.Tls.CurvePrefs {
+	for _, v := range a.Conf.Tls.CurvePrefs {
 		switch v {
 		case CURVEP256:
 			curves = append(curves, tls.CurveP256)
@@ -45,7 +46,7 @@ func CreateTLSConf() *tls.Config {
 	}
 
 	var ciphers []uint16
-	for _, v := range Conf.Tls.Ciphers {
+	for _, v := range a.Conf.Tls.Ciphers {
 		ciphers = append(ciphers, CipherMap[v])
 	}
 
@@ -59,13 +60,13 @@ func CreateTLSConf() *tls.Config {
 	tlsCfg := &tls.Config{
 		MinVersion:               minversion,
 		CurvePreferences:         curves,
-		PreferServerCipherSuites: Conf.Tls.PreferServerCiphers,
+		PreferServerCipherSuites: a.Conf.Tls.PreferServerCiphers,
 		CipherSuites:             ciphers,
 	}
 	return tlsCfg
 }
 
-func CreateServerAndListener(router *mux.Router, ip string, port string) (*http.Server, net.Listener, error) {
+func (a RestAPI) createServerAndListener(router *mux.Router, ip string, port string) (*http.Server, net.Listener, error) {
 
 	if port == "" || router == nil {
 		return nil, nil, fmt.Errorf("Router or Port is empty")
@@ -89,7 +90,7 @@ func CreateServerAndListener(router *mux.Router, ip string, port string) (*http.
 		return nil, nil, err
 	}
 
-	tlsCfg := CreateTLSConf()
+	tlsCfg := a.createTLSConf()
 	srv := &http.Server{
 		Addr:         listen,
 		Handler:      router,

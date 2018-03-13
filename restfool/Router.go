@@ -25,35 +25,36 @@
 package restfool
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"gopkg.in/throttled/throttled.v2"
 	"gopkg.in/throttled/throttled.v2/store/memstore"
-	"net/http"
 )
 
-func NewRouter() *mux.Router {
+func (a RestAPI) NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
 
 	// latest
-	AddRoutes(router)
+	a.AddRoutes(router)
 
 	//v1
-	AddV1Routes(router.PathPrefix("/v1").Subrouter())
+	a.AddV1Routes(router.PathPrefix("/v1").Subrouter())
 
 	//v2 only dummy yet
-	AddV2Routes(router.PathPrefix("/v2").Subrouter())
+	a.AddV2Routes(router.PathPrefix("/v2").Subrouter())
 
 	return router
 }
 
 // add default routes + ratelimit
-func AddRoutes(router *mux.Router) {
+func (a RestAPI) AddRoutes(router *mux.Router) {
 	store, err := memstore.New(65536)
 	Error("ROUTES: could not create memstore", err)
 
 	// rate limiter
-	quota := throttled.RateQuota{throttled.PerMin(Conf.RateLimit.Limit), Conf.RateLimit.Burst}
+	quota := throttled.RateQuota{throttled.PerMin(a.Conf.RateLimit.Limit), a.Conf.RateLimit.Burst}
 	rateLimiter, err := throttled.NewGCRARateLimiter(store, quota)
 	Error("ROUTES: error in ratelimiting", err)
 
@@ -86,11 +87,11 @@ func use(h http.Handler, middleware ...func(http.Handler) http.Handler) http.Han
 }
 
 // version 1 routes
-func AddV1Routes(router *mux.Router) {
-	AddRoutes(router)
+func (a RestAPI) AddV1Routes(router *mux.Router) {
+	a.AddRoutes(router)
 }
 
 // dummy for version 2 routes
-func AddV2Routes(router *mux.Router) {
-	AddRoutes(router)
+func (a RestAPI) AddV2Routes(router *mux.Router) {
+	a.AddRoutes(router)
 }

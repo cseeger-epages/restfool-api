@@ -93,34 +93,21 @@ func EncodeAndSend(w http.ResponseWriter, r *http.Request, qs QueryStrings, msg 
 	Error("json parse error", err)
 }
 
-func Init(confFile string) error {
-	err := parseConfig(confFile, &Conf)
-	if err != nil {
-		return err
-	}
-
-	InitLogger()
-	Info("Basic Authentication", map[string]interface{}{"enabled": Conf.General.BasicAuth})
-	Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": Conf.Tls.Hsts})
-	Info("Cross Origin Policy", map[string]interface{}{"enabled": Conf.Cors.AllowCrossOrigin})
-	return nil
-}
-
 func (a RestAPI) Serve() error {
-	router := NewRouter()
+	router := a.NewRouter()
 
 	err := a.initRoutes()
 	if err != nil {
 		return err
 	}
 
-	s, l, err := CreateServerAndListener(router, Conf.General.Listen, Conf.General.Port)
+	s, l, err := a.createServerAndListener(router, a.Conf.General.Listen, a.Conf.General.Port)
 	if err != nil {
 		return err
 	}
 
-	Info("starting server", map[string]interface{}{"ip": Conf.General.Listen, "port": Conf.General.Port})
-	err = s.ServeTLS(l, Conf.Certs.Public, Conf.Certs.Private)
+	Info("starting server", map[string]interface{}{"ip": a.Conf.General.Listen, "port": a.Conf.General.Port})
+	err = s.ServeTLS(l, a.Conf.Certs.Public, a.Conf.Certs.Private)
 	if err != nil {
 		return err
 	}
@@ -134,9 +121,10 @@ func New(confFile string) (RestAPI, error) {
 		return RestAPI{}, err
 	}
 
-	InitLogger()
+	api := RestAPI{conf, []route{}}
+	api.InitLogger()
 	Info("Basic Authentication", map[string]interface{}{"enabled": conf.General.BasicAuth})
 	Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": conf.Tls.Hsts})
 	Info("Cross Origin Policy", map[string]interface{}{"enabled": conf.Cors.AllowCrossOrigin})
-	return RestAPI{conf, []route{}}, nil
+	return api, nil
 }
