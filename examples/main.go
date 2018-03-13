@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	confFile := flag.String("c", "../conf/api.conf", "path to config ile")
+	confFile := flag.String("c", "conf/api.conf", "path to config ile")
 	flag.Parse()
 
 	// initialize rest api using conf file
