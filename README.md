@@ -2,6 +2,10 @@
 
 is a stupidly "foolish" and simple approach of implementing a JSON Restful API library.
 
+## Documentation
+
+can be found using [godoc](https://godoc.org/github.com/cseeger-epages/restfool-go).
+
 ## Features
 - path routing using gorilla mux
 - versioning
