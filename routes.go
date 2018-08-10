@@ -58,6 +58,7 @@ func (a RestAPI) AddHandler(name string, method string, path string, description
 
 func (a RestAPI) initRoutes() error {
 	err := a.AddHandler("Help", "GET", "/help", "help page", a.help)
+	err = a.AddHandler("Help", "POST", "/help", "help page", a.help)
 	err = a.AddHandler("Cors", "OPTIONS", "/{endpoint}", "Cross origin preflight", a.corsHandler)
 	err = a.AddHandler("Cors", "OPTIONS", "/{endpoint}/{id}", "Cross origin preflight", a.corsHandler)
 	return err
