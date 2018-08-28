@@ -21,15 +21,15 @@ before_install:
   - go get -u github.com/client9/misspell/cmd/misspell
 
 script: 
-  - golint .
-  - golint examples/
-  - go test -v -race .
-  - go test -v -race examples/
-  - go vet -v .
-  - go vet -v examples/
-  - gocyclo .
-  - gocyclo examples/
-  - ineffassign .
-  - ineffassign examples/
+  - golint *.go
+  - golint ./examples/*.go
+  - go test -v -race *.go
+  - go test -v -race ./examples/*.go
+  - go vet -v *.go
+  - go vet -v ./examples/*.go
+  - gocyclo *.go
+  - gocyclo ./examples/*.go
+  - ineffassign *.go
+  - ineffassign ./examples/*.go
   - misspell *.go
-  - misspell examples/
+  - misspell ./examples/*.go
