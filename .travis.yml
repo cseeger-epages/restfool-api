@@ -1,7 +1,7 @@
 sudo: false
 language: go
 go:
-  - 1.9.x
+  - 1.10.x
   - 1.x
 
 # only last commit
@@ -14,11 +14,9 @@ install: true
 notifications:
   email: false
 
-before_script:
-  - go install ./vendor/github.com/golangci/golangci-lint/cmd/golangci-lint
-
 script: 
-  - golangci-lint run
+  - golint .
+  - golint examples/
   - go test -v -race ./...
   - go vet -v ./...
   - gocyclo .
