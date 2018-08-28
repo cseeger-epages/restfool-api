@@ -1,0 +1,28 @@
+sudo: false
+language: go
+go:
+  - 1.9.x
+  - 1.x
+
+# only last commit
+git:
+  depth: 1
+
+# use vendor dependencys
+install: true
+
+notifications:
+  email: false
+
+before_script:
+  - go install ./vendor/github.com/golangci/golangci-lint/cmd/golangci-lint
+
+script: 
+  - golangci-lint run
+  - go test -v -race ./...
+  - go vet -v ./...
+  - gocyclo .
+  - gocyclo examples/
+  - ineffassign .
+  - misspell *.go
+  - misspell examples/
