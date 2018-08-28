@@ -1,6 +1,7 @@
 # Simple Restfool JSON API
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/cseeger-epages/restfool-go)](https://goreportcard.com/report/github.com/cseeger-epages/restfool-go)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cseeger-epages/restfool-go/blob/master/LICENSE)
 
 is a stupidly "foolish" and simple approach of implementing a JSON Restful API library.
 
