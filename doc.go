@@ -23,7 +23,7 @@ Add your own handler and go
 		log.Fatal(err)
 	}
 
-Handler defintion
+Handler definition
 
 	func Index(w http.ResponseWriter, r *http.Request) {
 		qs := rest.ParseQueryStrings(r)
@@ -115,7 +115,7 @@ Configuration example
 
 Additional filters
 
-As every usefull restful JSON API `?prettify` can be used for pretty print.
+As every useful restful JSON API `?prettify` can be used for pretty print.
 
 Default handlers
 

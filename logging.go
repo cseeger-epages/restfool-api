@@ -42,7 +42,7 @@ func Log(msg string, params map[string]interface{}, loglevel string) {
 
 // Error logs out errors using fields
 // e.g. Error("error msg", fmt.Errorf("my error"))
-// or using log.Fields / map[string]interace type
+// or using log.Fields / map[string]interface type
 // Error("error msg", map[string]interface{}{"val1": "foo", "val2": "bar"}
 func Error(msg string, params interface{}) {
 	switch params.(type) {
@@ -62,7 +62,7 @@ func Error(msg string, params interface{}) {
 // Debug uses the same syntax as Error function but does
 // not support error type and does not check for errors
 // e.g. Debug("debug", fmt.Errorf("my debug msg"))
-// or using log.Fields / map[string]interace type
+// or using log.Fields / map[string]interface type
 // Debug("debug msg", map[string]interface{}{"val1": "foo", "val2": "bar"}
 func Debug(msg string, params interface{}) {
 	switch params.(type) {
@@ -78,7 +78,7 @@ func Debug(msg string, params interface{}) {
 // Info uses the same syntax as Error function but does
 // not support error type and does not check for errors
 // e.g. Info("info", fmt.Errorf("my info msg"))
-// or using log.Fields / map[string]interace type
+// or using log.Fields / map[string]interface type
 // Info("info msg", map[string]interface{}{
 //	"err": "foo",
 //	"someField": "bar"

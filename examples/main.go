@@ -32,6 +32,7 @@ func main() {
 	}
 }
 
+// Index handler
 func Index(w http.ResponseWriter, r *http.Request) {
 	// dont need to cache ?
 	w.Header().Set("Cache-Control", "no-store")
