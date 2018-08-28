@@ -2,7 +2,7 @@
 
 [![GoDoc](https://img.shields.io/badge/godoc-reference-green.svg)](https://godoc.org/github.com/cseeger-epages/restfool-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cseeger-epages/restfool-go)](https://goreportcard.com/report/github.com/cseeger-epages/restfool-go)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cseeger-epages/restfool-go/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/cseeger-epages/restfool-go/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/cseeger-epages/restfool-go.svg?branch=master)](https://travis-ci.org/cseeger-epages/restfool-go)
 
 is a stupidly "foolish" and simple approach of implementing a JSON Restful API library.
