@@ -55,7 +55,10 @@ func (a RestAPI) AddRoutes(router *mux.Router) {
 	Error("ROUTES: could not create memstore", err)
 
 	// rate limiter
-	quota := throttled.RateQuota{throttled.PerMin(a.Conf.RateLimit.Limit), a.Conf.RateLimit.Burst}
+	quota := throttled.RateQuota{
+		MaxRate:  throttled.PerMin(a.Conf.RateLimit.Limit),
+		MaxBurst: a.Conf.RateLimit.Burst,
+	}
 	rateLimiter, err := throttled.NewGCRARateLimiter(store, quota)
 	Error("ROUTES: error in ratelimiting", err)
 
