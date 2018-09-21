@@ -32,6 +32,8 @@ import (
 	"gopkg.in/throttled/throttled.v2/store/memstore"
 )
 
+var prefixList []pathPrefix
+
 // NewRouter is the router constructor
 func (a RestAPI) NewRouter() *mux.Router {
 
@@ -45,6 +47,9 @@ func (a RestAPI) NewRouter() *mux.Router {
 
 	//v2 only dummy yet
 	a.AddV2Routes(router.PathPrefix("/v2").Subrouter())
+
+	// add additional prefix handler
+	a.addPrefixList(router)
 
 	return router
 }
@@ -98,4 +103,15 @@ func (a RestAPI) AddV1Routes(router *mux.Router) {
 // AddV2Routes dummy for version 2 routes
 func (a RestAPI) AddV2Routes(router *mux.Router) {
 	a.AddRoutes(router)
+}
+
+// AddPathPrefix to add additional Path Prefix handler
+func (a RestAPI) AddPathPrefix(prefix string, handler http.Handler) {
+	prefixList = append(prefixList, pathPrefix{prefix, handler})
+}
+
+func (a RestAPI) addPrefixList(router *mux.Router) {
+	for _, v := range prefixList {
+		router.PathPrefix(v.Prefix).Handler(v.Handler)
+	}
 }

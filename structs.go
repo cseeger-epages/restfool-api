@@ -24,6 +24,10 @@
 
 package restfool
 
+import (
+	"net/http"
+)
+
 // RestAPI contains api data
 type RestAPI struct {
 	Conf   config
@@ -49,4 +53,9 @@ type pathList struct {
 	Method      string
 	Pattern     string
 	Description interface{}
+}
+
+type pathPrefix struct {
+	Prefix  string
+	Handler http.Handler
 }
