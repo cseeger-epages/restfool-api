@@ -8,28 +8,18 @@
 is a stupidly "foolish" and simple approach of implementing a JSON Restful API library.
 
 ## Features
-- path routing using gorilla mux
-- versioning
+- path routing using [goji](https://goji.io)
 - database wrapper
 - TLS
 - pretty print
 - Etag / If-None-Match Clientside caching
-- rate limiting and headers using trottled middleware
+- rate limiting using [tollbooth](https://github.com/didip/tollbooth) middleware
 - basic auth
 - config using TOML format
 - error handler
 - logging
 
-### Ratelimit Headers
-```
-X-Ratelimit-Limit - The number of allowed requests in the current period
-X-Ratelimit-Remaining - The number of remaining requests in the current period
-X-Ratelimit-Reset - The number of seconds left in the current period
-```
-
-## tbd
-- X-HTTP-Method-Override
-- caching serverside (varnish support ?)
+## TODO
 - Authentication - oauth(2)
 
 ## simple example
