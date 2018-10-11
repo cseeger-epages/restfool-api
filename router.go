@@ -63,17 +63,8 @@ func (a RestAPI) AddRoutes(router *goji.Mux) {
 
 		router.Handle(
 			pattern,
-			//use(handler, a.addDefaultHeader, a.basicAuthHandler, httpRateLimiter.RateLimit),
 			use(handler, a.addDefaultHeader, a.basicAuthHandler),
 		)
-
-		/*
-			router.
-				Methods(route.Method).
-				Path(route.Pattern).
-				Name(route.Name).
-				Handler(use(handler, a.addDefaultHeader, a.basicAuthHandler, httpRateLimiter.RateLimit))
-		*/
 	}
 }
 
