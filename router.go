@@ -27,35 +27,26 @@ package restfool
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
-	"gopkg.in/throttled/throttled.v2"
+	"goji.io"
+	"goji.io/pat"
+	throttled "gopkg.in/throttled/throttled.v2"
 	"gopkg.in/throttled/throttled.v2/store/memstore"
 )
 
-var prefixList []pathPrefix
-
 // NewRouter is the router constructor
-func (a RestAPI) NewRouter() *mux.Router {
+func (a RestAPI) NewRouter() *goji.Mux {
 
-	router := mux.NewRouter().StrictSlash(true)
+	//router := mux.NewRouter().StrictSlash(true)
+	router := goji.NewMux()
 
 	// latest
 	a.AddRoutes(router)
-
-	//v1
-	a.AddV1Routes(router.PathPrefix("/v1").Subrouter())
-
-	//v2 only dummy yet
-	a.AddV2Routes(router.PathPrefix("/v2").Subrouter())
-
-	// add additional prefix handler
-	a.addPrefixList(router)
 
 	return router
 }
 
 // AddRoutes add default handler, routing and ratelimit
-func (a RestAPI) AddRoutes(router *mux.Router) {
+func (a RestAPI) AddRoutes(router *goji.Mux) {
 	store, err := memstore.New(65536)
 	Error("ROUTES: could not create memstore", err)
 
@@ -71,18 +62,47 @@ func (a RestAPI) AddRoutes(router *mux.Router) {
 		RateLimiter: rateLimiter,
 		VaryBy:      &throttled.VaryBy{Path: true},
 	}
-
 	for _, route := range routes {
 		var handler http.Handler
 
 		handler = route.HandlerFunc
 		handler = Logger(handler, route.Name)
 
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(use(handler, a.addDefaultHeader, a.basicAuthHandler, httpRateLimiter.RateLimit))
+		var pattern *pat.Pattern
+
+		switch route.Method {
+		case "DELETE":
+			pattern = pat.Delete(route.Pattern)
+		case "GET":
+			pattern = pat.Get(route.Pattern)
+		case "HEAD":
+			pattern = pat.Head(route.Pattern)
+		case "NEW":
+			pattern = pat.New(route.Pattern)
+		case "OPTIONS":
+			pattern = pat.Options(route.Pattern)
+		case "PATCH":
+			pattern = pat.Patch(route.Pattern)
+		case "POST":
+			pattern = pat.Post(route.Pattern)
+		case "PUT":
+			pattern = pat.Put(route.Pattern)
+		default:
+			pattern = pat.Get(route.Pattern)
+		}
+
+		router.Handle(
+			pattern,
+			use(handler, a.addDefaultHeader, a.basicAuthHandler, httpRateLimiter.RateLimit),
+		)
+
+		/*
+			router.
+				Methods(route.Method).
+				Path(route.Pattern).
+				Name(route.Name).
+				Handler(use(handler, a.addDefaultHeader, a.basicAuthHandler, httpRateLimiter.RateLimit))
+		*/
 	}
 }
 
@@ -93,25 +113,4 @@ func use(h http.Handler, middleware ...func(http.Handler) http.Handler) http.Han
 	}
 
 	return h
-}
-
-// AddV1Routes version 1 routes
-func (a RestAPI) AddV1Routes(router *mux.Router) {
-	a.AddRoutes(router)
-}
-
-// AddV2Routes dummy for version 2 routes
-func (a RestAPI) AddV2Routes(router *mux.Router) {
-	a.AddRoutes(router)
-}
-
-// AddPathPrefix to add additional Path Prefix handler
-func (a RestAPI) AddPathPrefix(prefix string, handler http.Handler) {
-	prefixList = append(prefixList, pathPrefix{prefix, handler})
-}
-
-func (a RestAPI) addPrefixList(router *mux.Router) {
-	for _, v := range prefixList {
-		router.PathPrefix(v.Prefix).Handler(v.Handler)
-	}
 }

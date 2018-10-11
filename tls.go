@@ -31,7 +31,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gorilla/mux"
+	goji "goji.io"
 )
 
 func (a RestAPI) createTLSConf() *tls.Config {
@@ -90,7 +90,7 @@ func (a RestAPI) createTLSConf() *tls.Config {
 	return tlsCfg
 }
 
-func (a RestAPI) createServerAndListener(router *mux.Router, ip string, port string) (*http.Server, net.Listener, error) {
+func (a RestAPI) createServerAndListener(router *goji.Mux, ip string, port string) (*http.Server, net.Listener, error) {
 
 	if port == "" || router == nil {
 		return nil, nil, fmt.Errorf("router or port is empty")

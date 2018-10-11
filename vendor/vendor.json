@@ -9,12 +9,6 @@
 			"revisionTime": "2016-07-17T15:07:09Z"
 		},
 		{
-			"checksumSHA1": "HEEx7LDDtZ8vwZauJtzdTc/uDa8=",
-			"path": "github.com/gorilla/mux",
-			"revision": "3f19343c7d9ce75569b952758bd236af94956061",
-			"revisionTime": "2017-09-22T20:54:14Z"
-		},
-		{
 			"checksumSHA1": "d9PxF1XQGLMJZRct2R8qVM/eYlE=",
 			"path": "github.com/hashicorp/golang-lru",
 			"revision": "0a025b7e63adc15a622f29b0b2c4c3848243bbf6",
@@ -33,22 +27,40 @@
 			"revisionTime": "2017-08-22T13:27:46Z"
 		},
 		{
-			"checksumSHA1": "nqWNlnMmVpt628zzvyo6Yv2CX5Q=",
+			"checksumSHA1": "OvrNwcBO+xO4FZ7eMbazho1C3t0=",
+			"path": "goji.io",
+			"revision": "0d89ff54b2c18c9c4ba530e32496aef902d3c6cd",
+			"revisionTime": "2016-11-14T00:05:42Z"
+		},
+		{
+			"checksumSHA1": "WjH6BtYreucaiAqweH8EVTuzfq4=",
+			"path": "goji.io/internal",
+			"revision": "0d89ff54b2c18c9c4ba530e32496aef902d3c6cd",
+			"revisionTime": "2016-11-14T00:05:42Z"
+		},
+		{
+			"checksumSHA1": "gCCLZgKj2pBECowciB75JYaJRx0=",
+			"path": "goji.io/pat",
+			"revision": "0d89ff54b2c18c9c4ba530e32496aef902d3c6cd",
+			"revisionTime": "2016-11-14T00:05:42Z"
+		},
+		{
+			"checksumSHA1": "HiFwLEdH2hi65LxmHk2lKjA3CU8=",
+			"path": "goji.io/pattern",
+			"revision": "0d89ff54b2c18c9c4ba530e32496aef902d3c6cd",
+			"revisionTime": "2016-11-14T00:05:42Z"
+		},
+		{
+			"checksumSHA1": "9C4Av3ypK5pi173F76ogJT/d8x4=",
 			"path": "golang.org/x/crypto/ssh/terminal",
-			"revision": "9419663f5a44be8b34ca85f08abc5fe1be11f8a3",
-			"revisionTime": "2017-09-30T17:45:11Z"
+			"revision": "ede567c8e044a5913dad1d1af3696d9da953104c",
+			"revisionTime": "2016-11-04T19:41:44Z"
 		},
 		{
-			"checksumSHA1": "tY+5thYxjKDUQyQXYcBqogmMS5U=",
+			"checksumSHA1": "XIt75royO77B3XRYyViU7tng2xM=",
 			"path": "golang.org/x/sys/unix",
-			"revision": "314a259e304ff91bd6985da2a7149bbf91237993",
-			"revisionTime": "2017-07-19T03:44:26Z"
-		},
-		{
-			"checksumSHA1": "pBPFzDGt3AVSRffB7ffiUnruFUk=",
-			"path": "golang.org/x/sys/windows",
-			"revision": "314a259e304ff91bd6985da2a7149bbf91237993",
-			"revisionTime": "2017-07-19T03:44:26Z"
+			"revision": "062cd7e4e68206d8bab9b18396626e855c992658",
+			"revisionTime": "2017-09-12T16:19:26Z"
 		},
 		{
 			"checksumSHA1": "xvUCUatbky/OjZDvSkWbxMca1vc=",
