@@ -23,7 +23,7 @@ func (a *RestAPI) NewRouter() *goji.Mux {
 // AddRoutes add default handler, routing and ratelimit
 func (a *RestAPI) AddRoutes(router *goji.Mux) {
 
-	for _, route := range routes {
+	for _, route := range a.Routes {
 		var handler http.Handler
 
 		handler = route.HandlerFunc

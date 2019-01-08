@@ -25,7 +25,7 @@ func (a *RestAPI) help(w http.ResponseWriter, r *http.Request) {
 
 	var msg []pathList
 
-	for _, m := range routes {
+	for _, m := range a.Routes {
 		msg = append(msg, pathList{m.Method, m.Pattern, m.Description})
 	}
 
