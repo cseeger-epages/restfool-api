@@ -58,6 +58,11 @@ func EncodeAndSend(w http.ResponseWriter, r *http.Request, qs QueryStrings, msg 
 
 // Serve creates and starts the restfull server and listener
 func (a *RestAPI) Serve() error {
+	err := a.initRoutes()
+	if err != nil {
+		return err
+	}
+
 	router := a.NewRouter()
 
 	s, l, err := a.createServerAndListener(router, a.Conf.General.Listen, a.Conf.General.Port)
@@ -83,7 +88,6 @@ func New(confFile string) (RestAPI, error) {
 
 	api := RestAPI{conf, []route{}}
 	api.initLogger()
-	err = api.initRoutes()
 	if err != nil {
 		return RestAPI{}, err
 	}
