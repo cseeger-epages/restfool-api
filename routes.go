@@ -16,7 +16,7 @@ type route struct {
 var routes []route
 
 // AddHandler adds a new handler to the routing list
-func (a RestAPI) AddHandler(name string, method string, path string, description interface{}, callback http.HandlerFunc) error {
+func (a *RestAPI) AddHandler(name string, method string, path string, description interface{}, callback http.HandlerFunc) error {
 	if name == "" || method == "" || path == "" || callback == nil {
 		return fmt.Errorf("name, method, path or callback function not set")
 	}
@@ -32,7 +32,7 @@ func (a RestAPI) AddHandler(name string, method string, path string, description
 	return nil
 }
 
-func (a RestAPI) initRoutes() error {
+func (a *RestAPI) initRoutes() error {
 	err := a.AddHandler("Help", "GET", "/help", "help page", a.help)
 	if err != nil {
 		return err

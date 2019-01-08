@@ -57,7 +57,7 @@ func EncodeAndSend(w http.ResponseWriter, r *http.Request, qs QueryStrings, msg 
 }
 
 // Serve creates and starts the restfull server and listener
-func (a RestAPI) Serve() error {
+func (a *RestAPI) Serve() error {
 	router := a.NewRouter()
 
 	s, l, err := a.createServerAndListener(router, a.Conf.General.Listen, a.Conf.General.Port)

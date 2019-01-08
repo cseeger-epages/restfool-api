@@ -17,7 +17,7 @@ func Handler(w http.ResponseWriter, r*http.Request) {
 */
 
 // help reference for all routes
-func (a RestAPI) help(w http.ResponseWriter, r *http.Request) {
+func (a *RestAPI) help(w http.ResponseWriter, r *http.Request) {
 	// never cache help commands
 	w.Header().Set("Cache-Control", "no-store")
 
@@ -33,7 +33,7 @@ func (a RestAPI) help(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (a RestAPI) corsHandler(w http.ResponseWriter, r *http.Request) {
+func (a *RestAPI) corsHandler(w http.ResponseWriter, r *http.Request) {
 	// caching stuff is handler specific
 	w.Header().Set("Cache-Control", "no-store")
 

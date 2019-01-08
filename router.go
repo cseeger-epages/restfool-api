@@ -9,7 +9,7 @@ import (
 )
 
 // NewRouter is the router constructor
-func (a RestAPI) NewRouter() *goji.Mux {
+func (a *RestAPI) NewRouter() *goji.Mux {
 
 	//router := mux.NewRouter().StrictSlash(true)
 	router := goji.NewMux()
@@ -21,7 +21,7 @@ func (a RestAPI) NewRouter() *goji.Mux {
 }
 
 // AddRoutes add default handler, routing and ratelimit
-func (a RestAPI) AddRoutes(router *goji.Mux) {
+func (a *RestAPI) AddRoutes(router *goji.Mux) {
 
 	for _, route := range routes {
 		var handler http.Handler
