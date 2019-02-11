@@ -71,7 +71,14 @@ func (a *RestAPI) Serve() error {
 	}
 
 	Info("starting server", map[string]interface{}{"ip": a.Conf.General.Listen, "port": a.Conf.General.Port})
-	err = s.ServeTLS(l, a.Conf.Certs.Public, a.Conf.Certs.Private)
+	if a.Conf.TLS.Encryption {
+		Info("SSL", map[string]interface{}{"status": "enabled", "cert": a.Conf.Certs.Public, "key": a.Conf.Certs.Private})
+		err = s.ServeTLS(l, a.Conf.Certs.Public, a.Conf.Certs.Private)
+	} else {
+		Info("SSL", map[string]interface{}{"status": "disabled"})
+		err = s.Serve(l)
+	}
+
 	if err != nil {
 		return err
 	}
@@ -92,7 +99,9 @@ func New(confFile string) (RestAPI, error) {
 		return RestAPI{}, err
 	}
 	Info("Basic Authentication", map[string]interface{}{"enabled": conf.General.BasicAuth})
-	Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": conf.TLS.Hsts})
+	if api.Conf.TLS.Encryption {
+		Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": conf.TLS.Hsts})
+	}
 	Info("Cross Origin Policy", map[string]interface{}{"enabled": conf.Cors.AllowCrossOrigin})
 	return api, nil
 }

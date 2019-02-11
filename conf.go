@@ -28,6 +28,7 @@ type certs struct {
 }
 
 type tlsconf struct {
+	Encryption          bool
 	Minversion          string
 	CurvePrefs          []string
 	Ciphers             []string
