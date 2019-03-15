@@ -8,7 +8,7 @@ import (
 
 func (a *RestAPI) addDefaultHeader(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		//w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
 		if a.Conf.Cors.AllowCrossOrigin {
 			w.Header().Set("Access-Control-Allow-Origin", a.Conf.Cors.AllowFrom)
