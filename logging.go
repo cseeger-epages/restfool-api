@@ -4,15 +4,22 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var usedLogger = log.StandardLogger()
+
+// SetLogger replaces the standard logger with custom configuration
+func SetLogger(newLogger *log.Logger) {
+	usedLogger = newLogger
+}
+
 // Log is the generic logging function used by Debug, Error and Info
 func Log(msg string, params map[string]interface{}, loglevel string) {
 	switch loglevel {
 	case INFO:
-		log.WithFields(params).Info(msg)
+		usedLogger.WithFields(params).Info(msg)
 	case DEBUG:
-		log.WithFields(params).Debug(msg)
+		usedLogger.WithFields(params).Debug(msg)
 	case ERROR:
-		log.WithFields(params).Error(msg)
+		usedLogger.WithFields(params).Error(msg)
 	}
 }
 
@@ -72,15 +79,15 @@ func Info(msg string, params interface{}) {
 
 // ErrorMsg used for simple error logging without fields
 func ErrorMsg(msg string) {
-	log.Error(msg)
+	usedLogger.Error(msg)
 }
 
 // DebugMsg used for simple debug logging without fields
 func DebugMsg(msg string) {
-	log.Debug(msg)
+	usedLogger.Debug(msg)
 }
 
 // InfoMsg used for simple info logging without fields
 func InfoMsg(msg string) {
-	log.Info(msg)
+	usedLogger.Info(msg)
 }
