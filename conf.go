@@ -6,7 +6,8 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-type config struct {
+// Config contains all config information
+type Config struct {
 	General   general   `toml:"general"`
 	Certs     certs     `toml:"certs"`
 	TLS       tlsconf   `toml:"tls"`
