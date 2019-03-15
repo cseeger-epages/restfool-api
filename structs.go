@@ -6,7 +6,7 @@ import (
 
 // RestAPI contains api data
 type RestAPI struct {
-	Conf   Config
+	Conf   config
 	Routes []Route
 }
 

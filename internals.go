@@ -87,7 +87,7 @@ func (a *RestAPI) Serve() error {
 
 // New is the restfool constructor
 func New(confFile string) (RestAPI, error) {
-	var conf Config
+	var conf config
 	err := parseConfig(confFile, &conf)
 	if err != nil {
 		return RestAPI{}, err
