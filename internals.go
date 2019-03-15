@@ -93,7 +93,7 @@ func New(confFile string) (RestAPI, error) {
 		return RestAPI{}, err
 	}
 
-	api := RestAPI{conf, []route{}}
+	api := RestAPI{conf, []Route{}}
 	api.initLogger()
 	if err != nil {
 		return RestAPI{}, err

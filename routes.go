@@ -5,7 +5,8 @@ import (
 	"net/http"
 )
 
-type route struct {
+// Route contains all information needed for path routing and help generation
+type Route struct {
 	Name        string
 	Method      string
 	Pattern     string
@@ -19,7 +20,7 @@ func (a *RestAPI) AddHandler(name string, method string, path string, descriptio
 		return fmt.Errorf("name, method, path or callback function not set")
 	}
 
-	a.Routes = append(a.Routes, route{
+	a.Routes = append(a.Routes, Route{
 		name,
 		method,
 		path,

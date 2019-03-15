@@ -7,7 +7,7 @@ import (
 // RestAPI contains api data
 type RestAPI struct {
 	Conf   config
-	Routes []route
+	Routes []Route
 }
 
 // Msg is the standard message type
