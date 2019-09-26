@@ -1,34 +1,28 @@
 package restfool
 
-import (
-	"os"
-
-	"github.com/BurntSushi/toml"
-)
-
 // config contains all config information
-type config struct {
-	General   general   `toml:"general"`
-	Certs     certs     `toml:"certs"`
-	TLS       tlsconf   `toml:"tls"`
-	Cors      cors      `toml:"cors"`
-	Logging   logging   `toml:"logging"`
-	RateLimit rateLimit `toml:"ratelimit"`
-	Users     []user    `toml:"user"`
+type Config struct {
+	General   General   `toml:"general"`
+	Certs     Certs     `toml:"certs"`
+	TLS       TlsConf   `toml:"tls"`
+	Cors      Cors      `toml:"cors"`
+	Logging   Logging   `toml:"logging"`
+	RateLimit RateLimit `toml:"ratelimit"`
+	Users     []User    `toml:"user"`
 }
 
-type general struct {
+type General struct {
 	Listen    string
 	Port      string
 	BasicAuth bool
 }
 
-type certs struct {
+type Certs struct {
 	Public  string
 	Private string
 }
 
-type tlsconf struct {
+type TlsConf struct {
 	Encryption          bool
 	Minversion          string
 	CurvePrefs          []string
@@ -38,33 +32,24 @@ type tlsconf struct {
 	HstsMaxAge          int
 }
 
-type cors struct {
+type Cors struct {
 	AllowCrossOrigin bool
 	CorsMethods      []string
 	AllowFrom        string
 }
 
-type logging struct {
+type Logging struct {
 	Type     string
 	Loglevel string
 	Output   string
 	Logfile  string
 }
 
-type rateLimit struct {
+type RateLimit struct {
 	Limit int
 }
 
-type user struct {
+type User struct {
 	Username string
 	Password string
-}
-
-func parseConfig(fileName string, conf interface{}) error {
-	if _, err := os.Stat(fileName); os.IsNotExist(err) {
-		Error("config error", err)
-		os.Exit(1)
-	}
-	_, err := toml.DecodeFile(fileName, conf)
-	return err
 }
