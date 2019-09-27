@@ -86,22 +86,13 @@ func (a *RestAPI) Serve() error {
 }
 
 // New is the restfool constructor
-func New(confFile string) (RestAPI, error) {
-	var conf config
-	err := parseConfig(confFile, &conf)
-	if err != nil {
-		return RestAPI{}, err
-	}
-
-	api := RestAPI{conf, []Route{}}
-	api.initLogger()
-	if err != nil {
-		return RestAPI{}, err
-	}
-	Info("Basic Authentication", map[string]interface{}{"enabled": conf.General.BasicAuth})
+func New(c Config) (RestAPI, error) {
+	api := RestAPI{c, []Route{}}
+	api.InitLogger()
+	Info("Basic Authentication", map[string]interface{}{"enabled": c.General.BasicAuth})
 	if api.Conf.TLS.Encryption {
-		Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": conf.TLS.Hsts})
+		Info("HTTP Strict Transport Security", map[string]interface{}{"enabled": c.TLS.Hsts})
 	}
-	Info("Cross Origin Policy", map[string]interface{}{"enabled": conf.Cors.AllowCrossOrigin})
+	Info("Cross Origin Policy", map[string]interface{}{"enabled": c.Cors.AllowCrossOrigin})
 	return api, nil
 }
