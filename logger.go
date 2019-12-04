@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (a *RestAPI) initLogger() {
+func (a *RestAPI) InitLogger() {
 	switch a.Conf.Logging.Type {
 	case LOGFORMATJSON:
 		usedLogger.SetFormatter(&log.JSONFormatter{})
