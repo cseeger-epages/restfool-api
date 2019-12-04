@@ -7,6 +7,8 @@
 
 is a stupidly "foolish" and simple approach of implementing a JSON Restful API library.
 
+**! This project is not maintained anymore !**
+
 ## Features
 - path routing using [goji](https://goji.io)
 - database wrapper
